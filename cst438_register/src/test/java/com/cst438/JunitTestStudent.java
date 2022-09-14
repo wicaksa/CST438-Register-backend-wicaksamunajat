@@ -98,8 +98,8 @@ public class JunitTestStudent
                .content(jsonStudentAttempt.write(expected).getJson()))
             .andReturn().getResponse();
       
-      // verify that return status = OK (value 200) 
-      // Does not return anything in the body
+      // Verify that the return status = OK (value 200).
+      // Does not return anything in the body.
       assertEquals(200, response.getStatus());
    }
    
@@ -114,7 +114,6 @@ public class JunitTestStudent
       attempt.setStatusCode(TEST_STUDENT_STATUS_CODE); //0
       attempt.setStatus(null);
       
-      
       // Expected Output
       Student expected = new Student();
       expected.setStudent_id(100);
@@ -123,10 +122,8 @@ public class JunitTestStudent
       expected.setStatusCode(0);
       expected.setStatus(null);
       
-      
       // given  -- stubs for database repositories that return test data
       given(studentRepository.findByEmail(TEST_STUDENT_EMAIL_NEW)).willReturn(expected);
-      
       
       MockHttpServletResponse response = mvc.perform(
             MockMvcRequestBuilders 
@@ -135,15 +132,14 @@ public class JunitTestStudent
                .content(jsonStudentAttempt.write(attempt).getJson()))
             .andReturn().getResponse();
       
-      // verify that return status = OK (value 200) 
+      // Verify that return status = 400.
       assertEquals(400, response.getStatus());
    }
-   
    
    @Test
    public void Add_StudentHold_Pass_IncrementsStatusCodeByOne() throws Exception 
    {
-   // Expected Input
+      // Expected Input
       Student attempt = new Student();
       attempt.setStudent_id(TEST_STUDENT_ID);
       attempt.setName(TEST_STUDENT_NAME);
@@ -159,6 +155,7 @@ public class JunitTestStudent
       expected.setStatusCode(1);
       expected.setStatus(null);
       
+      // given  -- stubs for database repositories that return test data
       given(studentRepository.findById(100)).willReturn(Optional.of(attempt));
       
       MockHttpServletResponse response = mvc.perform(
@@ -173,22 +170,19 @@ public class JunitTestStudent
       
       // verify that status code is 1
       Student result = fromJsonString(response.getContentAsString(), Student.class);
-      assertEquals( 1  , result.getStatusCode());
-     
-            
+      assertEquals(1, result.getStatusCode());
    }
    
    @Test
    public void Add_StudentHold_Fail_NonexistentStudentID() throws Exception 
    {
-   // Expected Input
+      // Expected Input
       Student expected = new Student();
       expected.setStudent_id(100);
       expected.setName("TEST STUDENT");
       expected.setEmail("MOCK@GMAIL.COM");
       expected.setStatusCode(1);
       expected.setStatus(null);
-      
       
       // Expected Output
       Student attempt = new Student();
@@ -198,6 +192,7 @@ public class JunitTestStudent
       attempt.setStatusCode(TEST_STUDENT_STATUS_CODE);
       attempt.setStatus(null);
       
+      // given  -- stubs for database repositories that return test data
       given(studentRepository.findById(1000)).willReturn(Optional.of(expected));
   
       MockHttpServletResponse response = mvc.perform(
@@ -207,15 +202,14 @@ public class JunitTestStudent
                .content(jsonStudentAttempt.write(attempt).getJson()))
             .andReturn().getResponse();
       
-      // verify that return status = OK (value 200) 
-      assertEquals(400, response.getStatus());  
-            
+      // Verify that return status = 400.
+      assertEquals(400, response.getStatus());              
    }
    
    @Test
    public void Remove_StudentHold_Pass_ChangeHoldStatusToZero() throws Exception 
    {
-   // Expected Input
+      // Expected Input
       Student attempt = new Student();
       attempt.setStudent_id(TEST_STUDENT_ID);
       attempt.setName(TEST_STUDENT_NAME);
@@ -231,6 +225,7 @@ public class JunitTestStudent
       expected.setStatusCode(0);
       expected.setStatus(null);
       
+      // given  -- stubs for database repositories that return test data
       given(studentRepository.findById(100)).willReturn(Optional.of(expected));
   
       MockHttpServletResponse response = mvc.perform(
@@ -240,18 +235,18 @@ public class JunitTestStudent
                .content(jsonStudentAttempt.write(attempt).getJson()))
             .andReturn().getResponse();
       
-      // verify that return status = OK (value 200) 
+      // Verify that return status = OK (value 200).
       assertEquals(200, response.getStatus());  
       
-      // Verify that status code is now 0
+      // Verify that status code in the response body is now 0.
       Student result = fromJsonString(response.getContentAsString(), Student.class);
-      assertEquals( 0  , result.getStatusCode());
+      assertEquals(0, result.getStatusCode());
    }
    
    @Test
    public void Remove_StudentHold_Fail_NonexistentStudentID() throws Exception 
    {
-   // Expected Input
+      // Expected Input
       Student attempt = new Student();
       attempt.setStudent_id(TEST_STUDENT_ID);
       attempt.setName(TEST_STUDENT_NAME);
@@ -267,6 +262,7 @@ public class JunitTestStudent
       expected.setStatusCode(0);
       expected.setStatus(null);
       
+      // given  -- stubs for database repositories that return test data
       given(studentRepository.findById(100)).willReturn(Optional.of(expected));
   
       MockHttpServletResponse response = mvc.perform(
@@ -276,9 +272,10 @@ public class JunitTestStudent
                .content(jsonStudentAttempt.write(attempt).getJson()))
             .andReturn().getResponse();
       
-      // verify that return status = OK (value 200) 
-      assertEquals(400, response.getStatus());  
-      // verify that the response message is the same
+      // verify that return status = 400.
+      assertEquals(400, response.getStatus()); 
+      
+      // verify that the response message is the same.
       assertEquals("Student doesn't exist.", response.getErrorMessage());
    }
    
@@ -289,5 +286,4 @@ public class JunitTestStudent
          throw new RuntimeException(e);
       }
    }
-
 }

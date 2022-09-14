@@ -1,7 +1,5 @@
 package com.cst438.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.cst438.domain.Course;
 import com.cst438.domain.CourseRepository;
-import com.cst438.domain.Enrollment;
 import com.cst438.domain.EnrollmentRepository;
-import com.cst438.domain.ScheduleDTO;
 import com.cst438.domain.Student;
 import com.cst438.domain.StudentRepository;
 import com.cst438.service.GradebookService;
-
-import antlr.collections.List;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "https://registerf-cst438.herokuapp.com/"})
@@ -43,8 +36,8 @@ public class StudentController
    
    /*
     * Gets all the students from the repository
+    * 
     */
-   
    @GetMapping("/getAllStudents")
    public Iterable<Student> retrieveAllStudents() {
       Iterable<Student> students = studentRepository.findAll();
@@ -56,6 +49,7 @@ public class StudentController
     * As an administrator, I can add a student to the system.  
     * I input the student email and name. 
     * The student email must not already exists in the system.
+    * 
     */
    @PostMapping("/addStudent")
    @Transactional
@@ -86,6 +80,7 @@ public class StudentController
    /*
     * Add a Student Hold.
     * Adds 1 to a student hold value.
+    * 
     */
    @PutMapping("/addHold/{student_id}")
    @Transactional
@@ -123,7 +118,4 @@ public class StudentController
          throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Student doesn't exist.");
       }
    }
-   
-   
-
 }
