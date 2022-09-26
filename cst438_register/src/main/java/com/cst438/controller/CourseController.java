@@ -35,7 +35,5 @@ public class CourseController {
 	      // Save the repo.
 	      enrollmentRepository.save(e); 
 	   }
-		
 	}
-
 }
