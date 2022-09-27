@@ -13,19 +13,29 @@ import com.cst438.domain.EnrollmentRepository;
 
 @RestController
 public class CourseController {
-	
-	@Autowired
-	EnrollmentRepository enrollmentRepository;
-	
-	/*
-	 * endpoint used by gradebook service to transfer final course grades
-	 */
-	@PutMapping("/course/{course_id}")
-	@Transactional
-	public void updateCourseGrades( @RequestBody CourseDTOG courseDTO, @PathVariable("course_id") int course_id) {
-		
-		//TODO  complete this method in homework 4
-		
-	}
-
+   
+   @Autowired
+   EnrollmentRepository enrollmentRepository;
+   
+   /*
+    * endpoint used by gradebook service to transfer final course grades
+    */
+   @PutMapping("/course/{course_id}")
+   @Transactional
+   public void updateCourseGrades( @RequestBody CourseDTOG courseDTO, @PathVariable("course_id") int course_id) {
+      
+      //TODO  complete this method in homework 4
+      for (CourseDTOG.GradeDTO g : courseDTO.grades) {
+         // Find the enrollment record for students
+         Enrollment e = enrollmentRepository.findByEmailAndCourseId(g.student_email, course_id);
+         
+         // Set the grade.
+         e.setCourseGrade(g.grade);
+         
+         // Save the repo.
+         enrollmentRepository.save(e); 
+      }
+   }
 }
+
+
