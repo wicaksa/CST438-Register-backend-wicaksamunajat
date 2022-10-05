@@ -38,8 +38,8 @@ import com.cst438.domain.EnrollmentRepository;
 @SpringBootTest
 public class EndToEndScheduleTest {
 
-	public static final String CHROME_DRIVER_FILE_LOCATION = "C:/chromedriver_win32/chromedriver.exe";
-
+	//public static final String CHROME_DRIVER_FILE_LOCATION = "C:/chromedriver_win32/chromedriver.exe";
+   public static final String CHROME_DRIVER_FILE_LOCATION = "/usr/local/bin/chromedriver";
 	public static final String URL = "http://localhost:3000";
 
 	public static final String TEST_USER_EMAIL = "test@csumb.edu";
@@ -91,7 +91,7 @@ public class EndToEndScheduleTest {
 		WebDriver driver = new ChromeDriver();
 		// Puts an Implicit wait for 10 seconds before throwing exception
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
+		
 		try {
 
 			driver.get(URL);
@@ -103,7 +103,6 @@ public class EndToEndScheduleTest {
 			we.click();
 
 			// Locate and click "Get Schedule" button
-			
 			driver.findElement(By.xpath("//a")).click();
 			Thread.sleep(SLEEP_DURATION);
 
